@@ -228,7 +228,6 @@ end
 ---@return boolean
 local function is_in_range(range, row, col, end_col_offset)
   local start_row, start_col, end_row, end_col = unpack(range) ---@type integer, integer, integer, integer
-  end_col_offset = end_col_offset or 0
 
   if start_row > row or end_row < row then
     return false
@@ -238,7 +237,11 @@ local function is_in_range(range, row, col, end_col_offset)
     return false
   end
 
-  return end_row == row and col <= end_col + end_col_offset
+  if end_row ~= row then
+    return true
+  end
+
+  return col <= end_col + (end_col_offset or 0)
 end
 
 ---@param range1 Range4
